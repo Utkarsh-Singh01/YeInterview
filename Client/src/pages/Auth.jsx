@@ -34,7 +34,14 @@ function Auth({ isModel = false, onClose }) {
         }
       );
 
-      dispatch(setUserData(result.data));
+      const { user, token } = result.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      }
+
+      dispatch(setUserData(user));
 
       if (onClose) {
         onClose();
