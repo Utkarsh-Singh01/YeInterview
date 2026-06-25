@@ -1,14 +1,12 @@
-import React from 'react'
-
+import React from "react";
 import {
   CircularProgressbar,
-  buildStyles
-} from 'react-circular-progressbar'
-
-import 'react-circular-progressbar/dist/styles.css'
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 function Timer({ timeLeft, totalTime }) {
-  const percentage = (timeLeft / totalTime) * 100
+  const percentage = totalTime ? (timeLeft / totalTime) * 100 : 0;
 
   return (
     <div className="h-20 w-20">
@@ -17,15 +15,15 @@ function Timer({ timeLeft, totalTime }) {
         text={`${timeLeft}s`}
         strokeWidth={8}
         styles={buildStyles({
-          textSize: '24px',
-          textColor: '#e45b7a',
-          pathColor: '#10b981',
-          trailColor: '#e5e7eb',
-          strokeLinecap: 'round'
+          textSize: "24px",
+          textColor: "#e45b7a",
+          pathColor: "#10b981",
+          trailColor: "#e5e7eb",
+          strokeLinecap: "round",
         })}
       />
     </div>
-  )
+  );
 }
 
-export default Timer
+export default Timer;

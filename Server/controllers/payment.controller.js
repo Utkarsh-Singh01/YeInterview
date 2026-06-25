@@ -18,7 +18,6 @@ const PLAN_CONFIG = {
   },
 };
 
-// CREATE RAZORPAY ORDER
 export const createOrder = async (req, res) => {
   try {
     const { planId } = req.body;
@@ -40,7 +39,7 @@ export const createOrder = async (req, res) => {
     }
 
     const options = {
-      amount: plan.amount * 100, // Razorpay amount in paisa
+      amount: plan.amount * 100,
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
@@ -57,9 +56,7 @@ export const createOrder = async (req, res) => {
       planId: plan.planId,
       amount: plan.amount,
       credits: plan.credits,
-
       razorpayOrderId: order.id,
-
       status: "created",
     });
 
@@ -69,8 +66,6 @@ export const createOrder = async (req, res) => {
       plan,
     });
   } catch (error) {
-    console.error("Create order error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Failed to create Razorpay order",
@@ -79,7 +74,6 @@ export const createOrder = async (req, res) => {
   }
 };
 
-// VERIFY RAZORPAY PAYMENT
 export const verifyPayment = async (req, res) => {
   try {
     const {
@@ -155,8 +149,6 @@ export const verifyPayment = async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
-    console.error("Verify payment error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Failed to verify Razorpay payment",

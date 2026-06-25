@@ -13,7 +13,6 @@ import {
 
 const interviewRouter = express.Router();
 
-
 interviewRouter.post(
   "/resume",
   isAuth,
@@ -41,14 +40,14 @@ interviewRouter.post(
 
 interviewRouter.get(
   "/get-interview",
-   isAuth,
-   getMyInterviews
-  );
+  isAuth,
+  getMyInterviews
+);
 
 interviewRouter.get(
   "/report/:id",
-   isAuth,
-   getInterviewReport
-  );
+  isAuth,
+  getInterviewReport
+);
 
 export default interviewRouter;

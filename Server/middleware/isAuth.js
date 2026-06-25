@@ -1,29 +1,39 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const isAuth = (req, res, next) => {
-    try {
-        let {token} = req.cookies
+  try {
+    const cookieToken = req.cookies?.token;
 
-        if(!token) {
-            return res.status(401).json({
-                message: "User have not valid token"
-            });
-        }
-        const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+    const headerToken = req.headers.authorization?.startsWith("Bearer ")
+      ? req.headers.authorization.split(" ")[1]
+      : null;
 
-        if(!verifyToken) {
-            return res.status(401).json({
-                message: "User does not have valid token"
-            });
-        }
+    const token = cookieToken || headerToken;
 
-        req.userId = verifyToken.userId;
-        next();
-    } catch (error) {
-        return res.status(500).json({
-            message: "Is Auth error"
-        });
+    if (!token) {
+      return res.status(401).json({
+        message: "User does not have valid token",
+      });
     }
-}
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const userId = decoded.userId || decoded.id || decoded._id;
+
+    if (!userId) {
+      return res.status(401).json({
+        message: "Invalid token payload",
+      });
+    }
+
+    req.userId = userId;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "User does not have valid token",
+    });
+  }
+};
 
 export default isAuth;

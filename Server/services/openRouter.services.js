@@ -10,9 +10,11 @@ const DEFAULT_FREE_MODELS = [
 
 const getModelList = () => {
   if (process.env.OPENROUTER_MODELS) {
-    return process.env.OPENROUTER_MODELS.split(",")
+    const envModels = process.env.OPENROUTER_MODELS.split(",")
       .map((model) => model.trim())
       .filter(Boolean);
+
+    if (envModels.length) return envModels;
   }
 
   return DEFAULT_FREE_MODELS;
@@ -62,7 +64,6 @@ export const askAi = async (messages, maxTokens = 1000, options = {}) => {
 
   for (const model of models) {
     try {
-
       console.log(`Trying model: ${model}`);
 
       const body = {
@@ -77,14 +78,13 @@ export const askAi = async (messages, maxTokens = 1000, options = {}) => {
       }
 
       const response = await axios.post(
-
         "https://openrouter.ai/api/v1/chat/completions",
         body,
         {
           headers: {
             Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
             "Content-Type": "application/json",
-            "HTTP-Referer": process.env.CLIENT_URL || "http://localhost:3000",
+            "HTTP-Referer": process.env.CLIENT_URL || "http://localhost:5173",
             "X-Title": "YeInterview",
           },
           timeout: options.timeout || 60000,
@@ -95,10 +95,6 @@ export const askAi = async (messages, maxTokens = 1000, options = {}) => {
       const content = normalizeContent(choice?.message?.content);
 
       if (!content || !content.trim()) {
-        console.warn(
-          `Model ${model} returned empty content — trying next. finish_reason=${choice?.finish_reason}`
-        );
-
         lastError = new Error(`Empty content from ${model}`);
         continue;
       }
