@@ -11,7 +11,7 @@ import Pricing from "./pages/Pricing";
 import InterviewReport from "./pages/InterviewReport";
 
 export const ServerUrl =
-  import.meta.env.VITE_SERVER_URL || "http://localhost:8000";
+  import.meta.env.VITE_SERVER_URL || "https://yeinterview.onrender.com";
 
 function App() {
   const dispatch = useDispatch();
