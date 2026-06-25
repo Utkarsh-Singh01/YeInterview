@@ -20,20 +20,25 @@ function Navbar() {
   const [showAuth, setShowAuth] = useState(false);
 
   const handleLogout = async () => {
-    try {
-      await axios.get(`${ServerUrl}/api/auth/logout`, {
-        withCredentials: true,
-      });
+  try {
+    await axios.get(`${ServerUrl}/api/auth/logout`, {
+      withCredentials: true,
+    });
 
-      dispatch(setUserData(null));
-      setShowUserPopup(false);
-      setShowCreditPopup(false);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common.Authorization;
 
+    dispatch(setUserData(null));
+    setShowUserPopup(false);
+    setShowCreditPopup(false);
+    navigate("/");
+  } catch (error) {
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common.Authorization;
+    dispatch(setUserData(null));
+    navigate("/");
+  }
+};
   return (
     <div className="bg-[#f3f3f3] flex justify-center px-4 pt-6">
       <motion.div
