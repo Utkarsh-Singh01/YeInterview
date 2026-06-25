@@ -11,7 +11,7 @@ import Pricing from "./pages/Pricing";
 import InterviewReport from "./pages/InterviewReport";
 
 export const ServerUrl =
-  import.meta.env.VITE_SERVER_URL || "https://yeinterview.onrender.com";
+  import.meta.env.VITE_SERVER_URL || "http://localhost:8000";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,8 +19,19 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        }
+
         const result = await axios.get(`${ServerUrl}/api/user/current-user`, {
           withCredentials: true,
+          headers: token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {},
         });
 
         dispatch(setUserData(result.data));
