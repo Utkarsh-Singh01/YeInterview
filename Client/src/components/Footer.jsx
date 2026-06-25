@@ -64,9 +64,9 @@ export default function Footer() {
 
             <div className="flex gap-2.5">
               {[
-                { Icon: FaLinkedinIn, href: "#" },
-                { Icon: FaGithub, href: "#" },
-                { Icon: FaTwitter, href: "#" },
+                { Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/utkarsh-singh-engineer/" },
+                { Icon: FaGithub, href: "https://github.com/Utkarsh-Singh01" },
+                { Icon: FaTwitter, href: "https://x.com/utkarsh_si75491" },
               ].map(({ Icon, href }, i) => (
                 <motion.a
                   key={i}
@@ -86,9 +86,9 @@ export default function Footer() {
               {[
                 { label: "Start Interview", href: "/interview" },
                 { label: "View History", href: "/history" },
-                { label: "AI Feedback", href: "/feedback" },
-                { label: "Resume Builder", href: "/resume" },
-                { label: "PDF Reports", href: "/reports" },
+                { label: "AI Feedback", href: "/history" },
+                { label: "Resume Builder", href: "/history" },
+                { label: "PDF Reports", href: "/history" },
               ].map((link, i) => (
                 <li key={i}>
                   <a href={link.href} className="text-gray-500 hover:text-green-600 text-sm transition-colors duration-200 flex items-center gap-2 group">
